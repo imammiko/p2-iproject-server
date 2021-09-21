@@ -3,7 +3,7 @@ const { sentData, getDataLastTime } = require("./apiPoint");
 const { parsingDate } = require("./timeParse");
 
 let baseUrlDhtdata =
-	"https://platform.antares.id:8443/~/antares-cse/antares-id/app23/dht";
+	"https://platform.antares.id:8443/~/antares-cse/antares-id/app23/lamp";
 
 function sentStatusLampu(param) {
 	let objek = { "m2m:cin": { con: `{"lamp":${param}}` } };
