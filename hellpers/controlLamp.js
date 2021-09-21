@@ -8,9 +8,7 @@ let baseUrlDhtdata =
 function sentStatusLampu(param) {
 	let objek = { "m2m:cin": { con: `{"lamp":${param}}` } };
 	sentData(baseUrlDhtdata, objek)
-		.then((data) => {
-			//console.log(data);
-		})
+		.then((data) => {})
 		.catch((err) => {
 			console.log(err);
 		});
@@ -59,13 +57,6 @@ function getStatusLampToDB() {
 		});
 }
 
-//console.log(getStatusLamp());
-// getStatusLamp().then((data) => {
-// 	console.log(data);
-// });
-
-// getStatusLampToDB();
-// sentStatusLampu(0);
 module.exports = {
 	sentStatusLampu,
 	getStatusLamp,

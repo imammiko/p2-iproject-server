@@ -14,6 +14,10 @@ const {
 	getDataLastTime,
 	getDataDeviceTime,
 } = require("./hellpers/apiPoint");
+const http = require("http");
+const server = http.createServer(app);
+const { Server } = require("socket.io");
+const io = new Server(server);
 lastDate;
 app.use(express.json());
 app.use(cors());
@@ -46,7 +50,7 @@ app.get("/lastDataSensor", async (req, res) => {
 	}
 });
 
-app.post("/lastDataSensor", async (req, res) => {
+app.post("/controlLampu", async (req, res) => {
 	try {
 		let { lamp } = req.body;
 		let dataLampToDataBase = await dataLampDevice.create({
@@ -61,8 +65,33 @@ app.post("/lastDataSensor", async (req, res) => {
 	}
 });
 
-app.listen(port, () => {
-	console.log(`Example app listening at http://localhost:${port}`);
+let lastDataTimeStamp = "";
+let lastDataTimeStampLamp = "";
+io.on("connection", (socket) => {
+	setInterval(() => {
+		dataSensorDevice
+			.findOne({
+				order: [["id", "DESC"]],
+			})
+			.then((data) => {
+				if (String(lastDataTimeStamp) != String(data.timeStamp)) {
+					console.log("masuk");
+					socket.broadcast.emit("newdata", data);
+				}
+				lastDataTimeStamp = data.timeStamp;
+			});
+		getStatusLamp().then((data) => {
+			if (String(lastDataTimeStampLamp) != String(data.timeStamp)) {
+				socket.broadcast.emit("newdataLamp", data);
+				// console.log(data);newdataLamp;
+			}
+			lastDataTimeStampLamp = data.timeStamp;
+		});
+	}, 1000);
+});
+
+server.listen(3000, () => {
+	console.log("listening on *:3000");
 });
 
 /*
@@ -74,3 +103,6 @@ create data for news control lamp;
 get data lamp from database;
 
 */
+module.exports = {
+	io,
+};

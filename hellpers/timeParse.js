@@ -2,7 +2,6 @@ function parsingDate(param) {
 	let dateFromParse = param;
 	let dataAfterParse = "";
 	for (let i = 0; i < dateFromParse.length; i++) {
-		//console.log(dateFromParse[i], i);
 		dataAfterParse += dateFromParse[i];
 		if (i == 3 || i == 5) {
 			dataAfterParse += "-";
