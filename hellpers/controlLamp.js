@@ -69,4 +69,5 @@ function getStatusLampToDB() {
 module.exports = {
 	sentStatusLampu,
 	getStatusLamp,
+	getStatusLampToDB,
 };
