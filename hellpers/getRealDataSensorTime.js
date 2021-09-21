@@ -1,25 +1,10 @@
 const { sentData, getDataLastTime } = require("./apiPoint");
 const { dataSensorDevice } = require("../models/index");
+const { parsingDate } = require("./timeParse");
 let count = 0;
 let lastTimeGetDataOnAntares = "";
 let baseUrlDhtdata =
 	"https://platform.antares.id:8443/~/antares-cse/antares-id/app23/dhtdata";
-
-function parsingDate(param) {
-	let dateFromParse = param;
-	let dataAfterParse = "";
-	for (let i = 0; i < dateFromParse.length; i++) {
-		//console.log(dateFromParse[i], i);
-		dataAfterParse += dateFromParse[i];
-		if (i == 3 || i == 5) {
-			dataAfterParse += "-";
-		}
-		if (i == 10 || i == 12) {
-			dataAfterParse += ":";
-		}
-	}
-	return dataAfterParse;
-}
 
 let lastDate = setInterval(() => {
 	let objek = {};

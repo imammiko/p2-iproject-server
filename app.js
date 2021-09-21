@@ -3,7 +3,7 @@ const app = express();
 const port = 3000;
 const cors = require("cors");
 const { lastDate } = require("./hellpers/getRealDataSensorTime");
-lastDate;
+// lastDate;
 app.use(express.json());
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
