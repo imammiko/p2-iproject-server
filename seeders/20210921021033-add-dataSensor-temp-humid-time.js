@@ -29,9 +29,6 @@ module.exports = {
 			objek.createdAt = new Date();
 			objek.updatedAt = new Date();
 			dataObjek.push(objek);
-			// console.log(dataSensor, objek);
-			// objek
-			//dataObjek.push()
 		}
 		console.log(dataObjek);
 		await queryInterface.bulkInsert("dataSensorDevices", dataObjek, {});

@@ -43,22 +43,6 @@ let lastDate = setInterval(() => {
 			// return dataSensorDevice.findAll({
 			// 	attributes: [[sequelize.fn("DAY", sequelize.col("createdAt")), "data"]],
 			// });
-			// return dataSensorDevice.findAll({
-			// 	where: {
-			// 		// timeStamp: {
-			// 		// 	$lte: new Date("2021-09-21 21:00:00"),
-			// 		// 	$gte: new Date("2021-09-21 12:00:00"),
-			// 		// },
-			// 	},
-			// 	attributes: [
-			// 		[
-			// 			sequelize.fn("date_trunc", "day", sequelize.col("timeStamp")),
-			// 			"day",
-			// 		],
-			// 		[sequelize.fn("AVG", sequelize.col("humidity")), "AVG"],
-			// 	],
-			// 	group: "day",
-			// });
 		})
 		.then((data) => {
 			console.log(data);
