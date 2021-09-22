@@ -7,11 +7,7 @@ let baseUrlDhtdata =
 
 function sentStatusLampu(param) {
 	let objek = { "m2m:cin": { con: `{"lamp":${param}}` } };
-	sentData(baseUrlDhtdata, objek)
-		.then((data) => {})
-		.catch((err) => {
-			console.log(err);
-		});
+	return sentData(baseUrlDhtdata, objek);
 }
 
 function getStatusLamp() {
@@ -31,30 +27,36 @@ function getStatusLamp() {
 }
 function getStatusLampToDB() {
 	let dataSensor = {};
-	getStatusLamp()
-		.then((data) => {
-			dataSensor = data;
-			return dataLampDevice.findOne({
-				where: {
-					timeStamp: data.timeStamp,
-				},
+	return new Promise(function (resolve, reject) {
+		getStatusLamp()
+			.then((data) => {
+				dataSensor = data;
+				return dataLampDevice.findOne({
+					where: {
+						timeStamp: data.timeStamp,
+					},
+				});
+			})
+			.then((data) => {
+				if (!data) {
+					dataSensor.createdAt = new Date();
+					dataSensor.updatedAt = new Date();
+					console.log(dataSensor);
+					console.log(data, dataSensor.timeStamp);
+					return dataLampDevice.create(dataSensor);
+				} else {
+					return data;
+				}
+			})
+			.then((data) => {
+				resolve(data);
+				console.log(data, "tersimpan di database");
+			})
+			.catch((err) => {
+				reject(err);
+				console.log(err);
 			});
-		})
-		.then((data) => {
-			if (!data) {
-				dataSensor.createdAt = new Date();
-				dataSensor.updatedAt = new Date();
-				console.log(dataSensor);
-				console.log(data, dataSensor.timeStamp);
-				return dataLampDevice.create(dataSensor);
-			}
-		})
-		.then((data) => {
-			console.log(data, "tersimpan di database");
-		})
-		.catch((err) => {
-			console.log(err);
-		});
+	});
 }
 
 module.exports = {

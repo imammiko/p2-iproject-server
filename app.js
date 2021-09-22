@@ -28,7 +28,11 @@ app.get("/dataSensorTemperature", async (req, res) => {
 		let { rangeData } = req.query;
 		let dataRange = await getDataDeviceTime(rangeData, "temperature");
 		res.status(200).json(dataRange);
-	} catch (error) {}
+	} catch (error) {
+		res.status(500).json({
+			message: "internal server error",
+		});
+	}
 });
 
 app.get("/dataSensorHumidity", async (req, res) => {
@@ -36,7 +40,11 @@ app.get("/dataSensorHumidity", async (req, res) => {
 		let { rangeData } = req.query;
 		let dataRange = await getDataDeviceTime(rangeData, "humidity");
 		res.status(200).json(dataRange);
-	} catch (error) {}
+	} catch (error) {
+		res.status(500).json({
+			message: "internal server error",
+		});
+	}
 });
 
 app.get("/lastDataSensor", async (req, res) => {
@@ -46,22 +54,43 @@ app.get("/lastDataSensor", async (req, res) => {
 		});
 		res.status(200).json(dataLast);
 	} catch (error) {
-		console.log(data);
+		console.lres.status(500).json({
+			message: "internal server error",
+		});
+		og(data);
 	}
+});
+
+app.get("/controlLampu", async (req, res) => {
+	getStatusLampToDB()
+		.then((data) => {
+			res.status(200).json(data);
+		})
+		.catch((err) => {
+			res.status(500).json({
+				message: "internal server error",
+			});
+		});
 });
 
 app.post("/controlLampu", async (req, res) => {
 	try {
 		let { lamp } = req.body;
-		let dataLampToDataBase = await dataLampDevice.create({
-			lamp,
-			timeStamp: new Date(),
-		});
-		sentStatusLampu(lamp);
-		// console.log(dataLampToDataBase, "<<lamp data");
-		res.status(200).json(dataLampToDataBase);
+		sentStatusLampu(lamp)
+			.then((data) => {
+				return dataLampDevice.create({
+					lamp,
+					timeStamp: new Date(),
+				});
+			})
+			.then((data) => {
+				res.status(200).json(data);
+			});
 	} catch (error) {
 		console.log(error);
+		res.status(500).json({
+			message: "internal server error",
+		});
 	}
 });
 
