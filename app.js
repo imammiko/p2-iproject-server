@@ -1,6 +1,8 @@
 const express = require("express");
 const app = express();
-const port = 3000;
+const dotenv = require("dotenv");
+
+const port = process.env.PORT || 3000;
 const cors = require("cors");
 const { dataLampDevice, dataSensorDevice } = require("./models/index");
 const {
@@ -147,7 +149,7 @@ io.on("connection", (socket) => {
 	}, 1000);
 });
 
-server.listen(3000, () => {
+server.listen(port, () => {
 	console.log("listening on *:3000");
 });
 
