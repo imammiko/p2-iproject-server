@@ -6,7 +6,7 @@ async function sentData(baseUrlDhtdata, dataSensor) {
 			method: "post",
 			url: `${baseUrlDhtdata}`,
 			headers: {
-				"X-M2M-Origin": "8d9c8e44d919da12:6e682d8f6290bf04",
+				"X-M2M-Origin": process.env.PRIVATEKEYANTAREST,
 				"Content-Type": "application/json;ty=4",
 				Accept: "application/json",
 			},

@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const dotenv = require("dotenv");
-
+dotenv.config();
 const port = process.env.PORT || 3000;
 const cors = require("cors");
 const { dataLampDevice, dataSensorDevice } = require("./models/index");
@@ -72,7 +72,7 @@ app.get("/weather", async (req, res) => {
 			params: { q: "jakarta,id" },
 			headers: {
 				"x-rapidapi-host": "community-open-weather-map.p.rapidapi.com",
-				"x-rapidapi-key": "f6720d0b7bmsh34a868cd0f530c8p12b639jsn13830c43d215",
+				"x-rapidapi-key": process.env.PRIVATEKEYOPENWEATHERMAP,
 			},
 		};
 
