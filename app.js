@@ -18,6 +18,7 @@ const http = require("http");
 const server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);
+const axios = require("axios");
 lastDate;
 app.use(express.json());
 app.use(cors());
@@ -59,6 +60,33 @@ app.get("/lastDataSensor", async (req, res) => {
 		});
 		og(data);
 	}
+});
+
+app.get("/weather", async (req, res) => {
+	try {
+		var options = {
+			method: "GET",
+			url: "https://community-open-weather-map.p.rapidapi.com/weather",
+			params: { q: "jakarta,id" },
+			headers: {
+				"x-rapidapi-host": "community-open-weather-map.p.rapidapi.com",
+				"x-rapidapi-key": "f6720d0b7bmsh34a868cd0f530c8p12b639jsn13830c43d215",
+			},
+		};
+
+		axios
+			.request(options)
+			.then(function (response) {
+				res.status(200).json(response.data);
+				console.log(response.data);
+			})
+			.catch(function (error) {
+				res.status(400).json({
+					message: "bad Request",
+				});
+				console.error(error);
+			});
+	} catch (error) {}
 });
 
 app.get("/controlLampu", async (req, res) => {
